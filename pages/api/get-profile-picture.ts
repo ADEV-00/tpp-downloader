@@ -14,6 +14,7 @@ async function getBrowserInstance() {
         height: 720,
       },
       ignoreHTTPSErrors: true,
+      ignoreDefaultArgs: ["--disable-extensions"],
     });
   }
 
@@ -26,6 +27,7 @@ async function getBrowserInstance() {
     executablePath: await chromium.executablePath,
     headless: chromium.headless,
     ignoreHTTPSErrors: true,
+    ignoreDefaultArgs: ["--disable-extensions"],
   });
 }
 

@@ -84,10 +84,7 @@ const Home: NextPage = () => {
                 type="search"
                 id="search"
                 className="block p-4 pl-4 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-lg focus:ring-[#21B36C] focus:border focus:border-[#21B36C] outline-none "
-                placeholder="Enter your profile url, ex: https://trovo.live/s/username"
-                data-tip
-                data-for="title required"
-                required
+                placeholder="Enter your profile url"
               />
               {loading ? (
                 <button className="text-white absolute animate-pulse right-2.5 bottom-2.5 bg-[#21B36C] hover:shadow-lg focus:ring-4 focus:outline-none focus:ring-[#28b47063] font-medium rounded-md text-sm px-4 py-2">
@@ -97,7 +94,10 @@ const Home: NextPage = () => {
                 <button
                   disabled={!profileUrl}
                   onClick={() => handleSubmitPorfile()}
-                  className="text-white absolute right-2.5 bottom-2.5 bg-[#21B36C] hover:shadow-lg focus:ring-4 focus:outline-none focus:ring-[#28b47063] font-medium rounded-md text-sm px-4 py-2"
+                  className={
+                    "text-white absolute right-2.5 bottom-2.5 bg-[#21B36C] hover:shadow-lg focus:ring-4 focus:outline-none focus:ring-[#28b47063] font-medium rounded-md text-sm px-4 py-2" +
+                    (profileUrl ? "" : " opacity-50 hover:shadow-none")
+                  }
                 >
                   View
                 </button>
@@ -109,7 +109,11 @@ const Home: NextPage = () => {
           <div className="fade-in-left w-1/4 flex flex-col items-center">
             <div className="w-72 h-72 p-3 relative bg-white shadow-lg rounded-lg mb-5">
               <div className="relative w-full h-full rounded-md overflow-hidden">
-                <Image src={profileImage} layout="fill" />
+                <Image
+                  src={profileImage}
+                  layout="fill"
+                  alt="User profile picture"
+                />
               </div>
             </div>
             <button

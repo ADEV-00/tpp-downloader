@@ -29,7 +29,7 @@ async function getBrowserInstance() {
   });
 }
 
-export default async (req: any, res: any) => {
+const getProfilePicture = async (req: any, res: any) => {
   const url = req.body.url;
 
   // Perform URL validation
@@ -90,3 +90,5 @@ export default async (req: any, res: any) => {
     }
   }
 };
+
+export default getProfilePicture;

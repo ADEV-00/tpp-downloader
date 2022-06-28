@@ -7,7 +7,7 @@ async function getBrowserInstance() {
     // running locally
     const puppeteer = require("puppeteer");
     return puppeteer.launch({
-      args: chromium.args,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
       headless: true,
       defaultViewport: {
         width: 1280,
@@ -18,7 +18,7 @@ async function getBrowserInstance() {
   }
 
   return chromium.puppeteer.launch({
-    args: chromium.args,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
     defaultViewport: {
       width: 1280,
       height: 720,

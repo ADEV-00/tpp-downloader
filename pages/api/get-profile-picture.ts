@@ -54,9 +54,9 @@ export default async (req: any, res: any) => {
     const src = await imgs.getProperty("src");
     const image = await src.jsonValue();
 
-    //change image resolution
-    const imageUrl = image.replace("/64", "/1280");
-    const imageUrl2 = imageUrl.replace("/64", "/720");
+    //remove default resolution
+    const imageUrl = image.replace("/w/64", "");
+    const imageUrl2 = imageUrl.replace("/h/64", "");
 
     res.json({
       status: "success",

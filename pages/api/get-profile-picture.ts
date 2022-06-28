@@ -24,7 +24,6 @@ async function getBrowserInstance() {
       width: 1280,
       height: 720,
     },
-    executablePath: await chromium.executablePath,
     headless: chromium.headless,
     ignoreHTTPSErrors: true,
     ignoreDefaultArgs: ["--disable-extensions"],

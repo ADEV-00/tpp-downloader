@@ -2,28 +2,53 @@ import type { NextPage } from "next";
 import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-
+import { saveAs } from "file-saver";
+import toast, { Toaster } from "react-hot-toast";
 const Home: NextPage = () => {
   const [profileImage, setProfileImage] = useState(null as any);
+  const [profileUrl, setProfileUrl] = useState("" as string);
   const [loading, setloading] = useState<boolean>(false);
 
   const handleSubmitPorfile = async () => {
-    setloading(true);
-    const res = await fetch("/api/get-profile-picture", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        url: "https://trovo.live/s/Dianaa",
-      }),
-    }).then((res) => res.json());
+    //check if the link include trovo.com or not
+    if (
+      !profileUrl.startsWith("https://") ||
+      !profileUrl.includes("trovo.live/s/") ||
+      profileUrl === "https://trovo.live/s/"
+    ) {
+      toast.error("Please enter a valid url");
+      return;
+    }
 
-    setProfileImage(res.image);
-    setloading(false);
+    setloading(true);
+    try {
+      const res = await fetch("/api/get-profile-picture", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: profileUrl,
+        }),
+      }).then((res) => res.json());
+
+      setProfileImage(res.image);
+      setloading(false);
+    } catch (err: any) {
+      console.log(err);
+      setloading(false);
+      toast.error("Error while fetching profile picture");
+    }
   };
 
-  console.log(profileImage);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProfileUrl(e.target.value);
+  };
+
+  const downloadImage = () => {
+    if (profileImage) saveAs(profileImage, "tpp.png"); // Put your image url here.
+    toast.success("Image downloaded");
+  };
 
   return (
     <div className="w-full h-screen bg-[#F5F5F5] flex flex-col">
@@ -40,8 +65,8 @@ const Home: NextPage = () => {
         </div>
       </nav>
 
-      <main className="flex-1 flex flex-row justify-center items-center">
-        <div className="w-[30%] flex flex-col items-center">
+      <main className="flex-1 flex flex-row justify-center items-center flex-wrap">
+        <div className="w-[30%] min-w-56 flex flex-col items-center">
           <div className="font-extrabold text-3xl text-gray-800 text-center mb-6 fade-in-down">
             <span className="text-[#21B36C]">Trovo</span> Profile Picture{" "}
             <span className="text-[#4B9EFF]">Downloader</span>
@@ -55,10 +80,13 @@ const Home: NextPage = () => {
             </label>
             <div className="relative">
               <input
+                onChange={handleInputChange}
                 type="search"
                 id="search"
                 className="block p-4 pl-4 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-lg focus:ring-[#21B36C] focus:border focus:border-[#21B36C] outline-none "
-                placeholder="Enter your profile url"
+                placeholder="Enter your profile url, ex: https://trovo.live/s/username"
+                data-tip
+                data-for="title required"
                 required
               />
               {loading ? (
@@ -67,6 +95,7 @@ const Home: NextPage = () => {
                 </button>
               ) : (
                 <button
+                  disabled={!profileUrl}
                   onClick={() => handleSubmitPorfile()}
                   className="text-white absolute right-2.5 bottom-2.5 bg-[#21B36C] hover:shadow-lg focus:ring-4 focus:outline-none focus:ring-[#28b47063] font-medium rounded-md text-sm px-4 py-2"
                 >
@@ -83,7 +112,10 @@ const Home: NextPage = () => {
                 <Image src={profileImage} layout="fill" />
               </div>
             </div>
-            <button className="bg-[#4B9EFF] w-56 py-3 rounded-lg flex flex-row items-center justify-center text-white font-bold transition-all 1s ease-in hover:shadow-lg">
+            <button
+              onClick={() => downloadImage()}
+              className="bg-[#4B9EFF] w-56 py-3 rounded-lg flex flex-row items-center justify-center text-white font-bold transition-all 1s ease-in hover:shadow-lg"
+            >
               Download
               <div className="ml-3">
                 <svg
@@ -116,6 +148,7 @@ const Home: NextPage = () => {
           </span>
         </a>
       </footer>
+      <Toaster position="top-right" />
     </div>
   );
 };

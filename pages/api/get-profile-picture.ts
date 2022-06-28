@@ -33,8 +33,13 @@ export default async (req: any, res: any) => {
   const url = req.body.url;
 
   // Perform URL validation
-  if (!url || !url.trim()) {
-    res.json({
+  if (
+    !url ||
+    !url.trim() ||
+    !url.startsWith("https://") ||
+    !url.includes("trovo.live/s/")
+  ) {
+    res.status(400).json({
       status: "error",
       error: "Enter a valid URL",
     });
@@ -48,7 +53,16 @@ export default async (req: any, res: any) => {
     browser = await getBrowserInstance();
     let page = await browser.newPage();
     await page.goto(url);
-    await page.waitForSelector(".info-content");
+
+    //Chack if the user exists
+    try {
+      await page.waitForSelector(".info-content", { timeout: 2000 });
+    } catch (err) {
+      res.status(400).json({
+        status: "error",
+        error: "User not found",
+      });
+    }
     const imgs = await page.$(".info-content > .avatar > .img-face");
 
     const src = await imgs.getProperty("src");
@@ -65,7 +79,7 @@ export default async (req: any, res: any) => {
     // upload this buffer on AWS S3
   } catch (error: any) {
     console.log(error);
-    res.json({
+    res.status(400).json({
       status: "error",
       data: error.message || "Something went wrong",
     });

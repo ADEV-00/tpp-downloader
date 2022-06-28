@@ -10,13 +10,16 @@
   },
   "dependencies": {
     "chrome-aws-lambda": "^10.1.0",
+    "file-saver": "^2.0.5",
     "next": "12.1.6",
     "puppeteer": "^15.1.1",
     "puppeteer-core": "^15.1.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hot-toast": "^2.2.0"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",

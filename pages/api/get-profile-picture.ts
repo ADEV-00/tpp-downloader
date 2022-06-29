@@ -1,11 +1,11 @@
 const chrome = require("chrome-aws-lambda");
+const puppeteer = require("puppeteer");
 
 async function getBrowserInstance() {
   const executablePath = await chrome.executablePath;
 
   if (!executablePath) {
     // running locally
-    const puppeteer = require("puppeteer");
     return puppeteer.launch({
       args: chrome.args,
       headless: true,
@@ -37,6 +37,23 @@ async function getBrowserInstance() {
   });
 }
 
+const getOptions = async () => {
+  let options;
+  if (process.env.NODE_ENV === "production") {
+    options = {
+      args: chrome.args,
+      executablePath: await chrome.executablePath,
+      headless: chrome.headless,
+    };
+  } else {
+    options = {
+      args: [],
+      headless: true,
+    };
+  }
+  return options;
+};
+
 const getProfilePicture = async (req: any, res: any) => {
   const url = req.body.url;
 
@@ -55,10 +72,11 @@ const getProfilePicture = async (req: any, res: any) => {
     return;
   }
 
-  let browser = null;
+  let browser: any = null;
 
   try {
-    browser = await getBrowserInstance();
+    const options = await getOptions();
+    const browser = await puppeteer.launch(options);
     let page = await browser.newPage();
     await page.goto(url);
 
@@ -84,7 +102,6 @@ const getProfilePicture = async (req: any, res: any) => {
       status: "success",
       image: imageUrl2,
     });
-    // upload this buffer on AWS S3
   } catch (error: any) {
     console.log(error);
     res.status(400).json({

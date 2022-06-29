@@ -1,13 +1,13 @@
-import chromium from "chrome-aws-lambda";
+const chrome = require("chrome-aws-lambda");
 
 async function getBrowserInstance() {
-  const executablePath = await chromium.executablePath;
+  const executablePath = await chrome.executablePath;
 
   if (!executablePath) {
     // running locally
     const puppeteer = require("puppeteer");
     return puppeteer.launch({
-      args: chromium.args,
+      args: chrome.args,
       headless: true,
       defaultViewport: {
         width: 1280,
@@ -18,9 +18,9 @@ async function getBrowserInstance() {
     });
   }
 
-  return chromium.puppeteer.launch({
+  return chrome.puppeteer.launch({
     args: [
-      ...chromium.args,
+      ...chrome.args,
       "--hide-scrollbars",
       "--disable-web-security",
       "--no-sandbox",
@@ -30,8 +30,8 @@ async function getBrowserInstance() {
       width: 1280,
       height: 720,
     },
-    executablePath: await chromium.executablePath,
-    headless: chromium.headless,
+    executablePath: await chrome.executablePath,
+    headless: chrome.headless,
     ignoreHTTPSErrors: true,
     ignoreDefaultArgs: ["--disable-extensions"],
   });

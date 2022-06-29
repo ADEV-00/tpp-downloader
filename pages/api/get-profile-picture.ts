@@ -82,7 +82,7 @@ const getProfilePicture = async (req: any, res: any) => {
 
     //Chack if the user exists
     try {
-      await page.waitForSelector(".info-content", { timeout: 2000 });
+      await page.waitForSelector(".info-content", { timeout: 5000 });
     } catch (err) {
       res.status(400).json({
         status: "error",

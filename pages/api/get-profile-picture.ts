@@ -81,14 +81,9 @@ const getProfilePicture = async (req: any, res: any) => {
     await page.goto(url);
 
     //Chack if the user exists
-    try {
-      await page.waitForSelector(".info-content", { timeout: 5000 });
-    } catch (err) {
-      res.status(400).json({
-        status: "error",
-        error: err,
-      });
-    }
+
+    await page.waitForSelector(".info-content");
+
     const imgs = await page.$(".info-content > .avatar > .img-face");
 
     const src = await imgs.getProperty("src");

@@ -19,7 +19,13 @@ async function getBrowserInstance() {
   }
 
   return chromium.puppeteer.launch({
-    args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+    args: [
+      ...chromium.args,
+      "--hide-scrollbars",
+      "--disable-web-security",
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+    ],
     defaultViewport: {
       width: 1280,
       height: 720,

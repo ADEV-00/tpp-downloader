@@ -86,7 +86,7 @@ const getProfilePicture = async (req: any, res: any) => {
     } catch (err) {
       res.status(400).json({
         status: "error",
-        error: "User not found",
+        error: err,
       });
     }
     const imgs = await page.$(".info-content > .avatar > .img-face");

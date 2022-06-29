@@ -19,11 +19,12 @@ async function getBrowserInstance() {
   }
 
   return chromium.puppeteer.launch({
-    args: chromium.args,
+    args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
     defaultViewport: {
       width: 1280,
       height: 720,
     },
+    executablePath: await chromium.executablePath,
     headless: chromium.headless,
     ignoreHTTPSErrors: true,
     ignoreDefaultArgs: ["--disable-extensions"],

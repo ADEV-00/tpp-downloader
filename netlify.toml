@@ -1,8 +1,10 @@
 [functions]
   included_files = [
+    "!node_modules/sharp/vendor/8.12.2/linux-x64/lib/libvips-cpp.so.42",
     "!node_modules/chrome-aws-lambda/bin/swiftshader.tar.br",
     "!node_modules/chrome-aws-lambda/bin/aws.tar.br",
     "!./node_modules/sharp/vendor/**",
     "!node_modules/sharp/**",
     "!node_modules/sharp/vendor/8.12.2/linux-x64/lib/libvips-cpp.so.42",
+    
   ]

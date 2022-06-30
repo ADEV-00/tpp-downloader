@@ -41,9 +41,19 @@ const getOptions = async () => {
   let options;
   if (process.env.NODE_ENV === "production") {
     options = {
-      args: chrome.args,
+      args: [
+        ...chrome.args,
+        "--disable-gpu",
+        "--disable-dev-shm-usage",
+        "--disable-setuid-sandbox",
+        "--no-first-run",
+        "--no-sandbox",
+        "--no-zygote",
+      ],
       executablePath: await chrome.executablePath,
       headless: chrome.headless,
+      ignoreHTTPSErrors: true,
+      slowMo: 0,
     };
   } else {
     options = {
@@ -78,24 +88,46 @@ const getProfilePicture = async (req: any, res: any) => {
     const options = await getOptions();
     const browser = await puppeteer.launch(options);
     let page = await browser.newPage();
-    await page.goto(url);
+
+    // Block images, videos, fonts from downloading
+    await page.setRequestInterception(true);
+    page.on("request", (request: any) => {
+      const blockResources = ["font", "media"] as any;
+      const reqType = request.resourceType();
+      if (reqType === "document") {
+        request.continue();
+      } else if (process.env.NODE_ENV === "development") {
+        request.continue();
+      } else {
+        console.log("block request type: " + request.resourceType());
+        request.abort();
+      }
+    });
+
+    await page.goto(url, {
+      waitUntil: "networkidle0",
+    });
 
     //Chack if the user exists
-
-    await page.waitForSelector(".info-content");
-
-    const imgs = await page.$(".info-content > .avatar > .img-face");
+    /* try {
+      await page.waitForSelector(".info-content", { timeout: 2000 });
+    } catch (err) {
+      res.status(400).json({
+        status: "error",
+        error: "User not found",
+      });
+    } */
+    const imgs = await page.$(".space-face > .img-face");
 
     const src = await imgs.getProperty("src");
     const image = await src.jsonValue();
 
     //remove default resolution
-    const imageUrl = image.replace("/w/64", "");
-    const imageUrl2 = imageUrl.replace("/h/64", "");
+    const imageUrl = image.replace("/w/64/h/64", "");
 
     res.json({
       status: "success",
-      image: imageUrl2,
+      image: imageUrl,
     });
   } catch (error: any) {
     console.log(error);
@@ -112,3 +144,10 @@ const getProfilePicture = async (req: any, res: any) => {
 };
 
 export default getProfilePicture;
+
+export const config = {
+  api: {
+    externalResolver: true,
+    responseLimit: false,
+  },
+};

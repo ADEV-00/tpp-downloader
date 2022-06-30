@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["headicon.trovo.live"],
+    domains: ["headicon.trovo.live", "custom-file.trovo.live"],
   },
 };
 

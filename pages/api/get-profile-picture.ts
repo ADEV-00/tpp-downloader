@@ -49,11 +49,46 @@ const getOptions = async () => {
         "--no-first-run",
         "--no-sandbox",
         "--no-zygote",
+        "--autoplay-policy=user-gesture-required",
+        "--disable-background-networking",
+        "--disable-background-timer-throttling",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-breakpad",
+        "--disable-client-side-phishing-detection",
+        "--disable-component-update",
+        "--disable-default-apps",
+        "--disable-dev-shm-usage",
+        "--disable-domain-reliability",
+        "--disable-extensions",
+        "--disable-features=AudioServiceOutOfProcess",
+        "--disable-hang-monitor",
+        "--disable-ipc-flooding-protection",
+        "--disable-notifications",
+        "--disable-offer-store-unmasked-wallet-cards",
+        "--disable-popup-blocking",
+        "--disable-print-preview",
+        "--disable-prompt-on-repost",
+        "--disable-renderer-backgrounding",
+        "--disable-setuid-sandbox",
+        "--disable-speech-api",
+        "--disable-sync",
+        "--hide-scrollbars",
+        "--ignore-gpu-blacklist",
+        "--metrics-recording-only",
+        "--mute-audio",
+        "--no-default-browser-check",
+        "--no-first-run",
+        "--no-pings",
+        "--no-zygote",
+        "--password-store=basic",
+        "--use-gl=swiftshader",
+        "--use-mock-keychain",
       ],
       executablePath: await chrome.executablePath,
       headless: chrome.headless,
       ignoreHTTPSErrors: true,
       slowMo: 0,
+      userDataDir: "./my/path",
     };
   } else {
     options = {
@@ -89,38 +124,24 @@ const getProfilePicture = async (req: any, res: any) => {
     const browser = await puppeteer.launch(options);
     let page = await browser.newPage();
 
-    // Block images, videos, fonts from downloading
-    await page.setRequestInterception(true);
-    page.on("request", (request: any) => {
-      const blockResources = ["font", "media"] as any;
-      const reqType = request.resourceType();
-      if (reqType === "font") {
-        request.abort();
-      } else {
-        request.continue();
+    await page.goto(url, { waitUntil: "networkidle2" });
+
+    const profilePicture = await page.evaluate(() => {
+      const profilePicture = document.querySelector(
+        ".space-face > .img-face"
+      ) as HTMLImageElement | null;
+      if (profilePicture) {
+        return profilePicture.src;
       }
-    });
-
-    await page.goto(url, {
-      waitUntil: "networkidle0",
-    });
-
-    //Chack if the user exists
-    /* try {
-      await page.waitForSelector(".info-content", { timeout: 2000 });
-    } catch (err) {
       res.status(400).json({
         status: "error",
-        error: "User not found",
+        error: "No profile picture found",
       });
-    } */
-    const imgs = await page.$(".space-face > .img-face");
-
-    const src = await imgs.getProperty("src");
-    const image = await src.jsonValue();
+    });
+    console.log(profilePicture);
 
     //remove default resolution
-    const imageUrl = image.replace("/w/64/h/64", "");
+    const imageUrl = profilePicture.replace("/w/64/h/64", "");
 
     res.json({
       status: "success",

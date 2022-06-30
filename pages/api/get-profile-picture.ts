@@ -94,13 +94,10 @@ const getProfilePicture = async (req: any, res: any) => {
     page.on("request", (request: any) => {
       const blockResources = ["font", "media"] as any;
       const reqType = request.resourceType();
-      if (reqType === "document") {
-        request.continue();
-      } else if (process.env.NODE_ENV === "development") {
-        request.continue();
-      } else {
-        console.log("block request type: " + request.resourceType());
+      if (reqType === "font") {
         request.abort();
+      } else {
+        request.continue();
       }
     });
 

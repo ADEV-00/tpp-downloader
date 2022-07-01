@@ -72,7 +72,7 @@ const Home: NextPage = () => {
             <span className="text-[#21B36C]">Trovo</span> Profile Picture{" "}
             <span className="text-[#4B9EFF]">Downloader</span>
           </div>
-          <div className="fade-in-down-delay-1 w-full space-y-2">
+          <div className="fade-in-down-delay-1 w-3/4 sm:w-full space-y-2">
             <label
               htmlFor="search"
               className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-300"

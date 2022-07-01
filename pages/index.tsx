@@ -4,6 +4,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { saveAs } from "file-saver";
 import toast, { Toaster } from "react-hot-toast";
+import Logo from "../public/logo.svg";
 const Home: NextPage = () => {
   const [profileImage, setProfileImage] = useState(null as any);
   const [profileUrl, setProfileUrl] = useState("" as string);
@@ -58,9 +59,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <nav className=" w-full flex justify-center items-cente fade-in-down-delay-2">
-        <div className="text-xl font-extrabold uppercase py-5 text-gray-800">
-          <span className="text-[#21B36C]">T</span>PP{" "}
+      <nav className=" w-full flex justify-center items-center fade-in-down-delay-2 mt-3">
+        <Image src={Logo} width="60" height="60" alt="Tpp Downloader Logo" />
+        <div className="text-xl font-extrabold uppercase  text-gray-800">
           <span className="text-[#4B9EFF]">Downloader</span>
         </div>
       </nav>

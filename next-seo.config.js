@@ -1,4 +1,6 @@
 export default {
+  title: "Trovo Profile Picture Downloader",
+  description: "Download Trovo Profile Picture in HD quality",
   openGraph: {
     type: "website",
     locale: "en_IE",

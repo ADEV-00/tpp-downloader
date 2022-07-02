@@ -73,10 +73,10 @@ const Home: NextPage = () => {
 
       <main className="flex-1 flex flex-row justify-center items-center flex-wrap gap-x-7">
         <div className="max-w-[25rem] min-w-56 flex flex-col items-center">
-          <div className="font-extrabold text-3xl text-gray-800 text-center mb-6 fade-in-down dark:text-white">
+          <h1 className="font-extrabold text-3xl text-gray-800 text-center mb-6 fade-in-down dark:text-white">
             <span className="text-[#21B36C]">Trovo</span> Profile Picture{" "}
             <span className="text-[#4B9EFF]">Downloader</span>
-          </div>
+          </h1>
           <div className="fade-in-down-delay-1 w-3/4 sm:w-full space-y-2">
             <label
               htmlFor="search"

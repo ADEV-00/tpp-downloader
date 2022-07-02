@@ -114,7 +114,7 @@ const Home: NextPage = () => {
         </div>
         {profileImage && (
           <div className="fade-in-left max-w-[20rem] flex flex-col items-center">
-            <div className="w-52 h-52 sm:w-72 sm:h-72 p-3 relative bg-white shadow-lg rounded-lg mb-5">
+            <div className="w-52 h-52 sm:w-72 sm:h-72 p-3 relative bg-white shadow-lg rounded-lg mb-5 dark:bg-gray-700">
               <div className="relative w-full h-full rounded-md overflow-hidden">
                 <Image
                   src={profileImage}

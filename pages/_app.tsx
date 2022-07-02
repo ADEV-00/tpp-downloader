@@ -3,6 +3,8 @@ import type { AppProps } from "next/app";
 import Script from "next/script";
 import * as gtag from "../lib/gtag";
 import { ThemeProvider } from "next-themes";
+import { DefaultSeo } from "next-seo";
+import SEO from "../next-seo.config";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -30,6 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           `,
         }}
       />
+      <DefaultSeo {...SEO} />
       <ThemeProvider attribute="class">
         <Component {...pageProps} />
       </ThemeProvider>

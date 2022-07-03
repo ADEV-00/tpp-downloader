@@ -57,7 +57,6 @@ const Home: NextPage = () => {
   return (
     <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col dark:bg-gray-800">
       <Head>
-        <title>TPP Downloader</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

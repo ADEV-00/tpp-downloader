@@ -5,13 +5,11 @@ import Image from "next/image";
 import { saveAs } from "file-saver";
 import toast, { Toaster } from "react-hot-toast";
 import Logo from "../public/logo.svg";
-import { useTheme } from "next-themes";
 import ThemeSwitch from "../components/ThemeSwitch/themeSwtch";
 const Home: NextPage = () => {
-  const [profileImage, setProfileImage] = useState(null as any);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [profileUrl, setProfileUrl] = useState("" as string);
   const [loading, setloading] = useState<boolean>(false);
-  const { theme, setTheme } = useTheme();
 
   const handleSubmitPorfile = async () => {
     //check if the link include trovo.com or not

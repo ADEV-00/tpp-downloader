@@ -1,5 +1,3 @@
-![Modified](https://img.shields.io/aur/last-modified/tpp-downloader?style=social)
-![Stars](https://img.shields.io/github/stars/ADEV-00/tpp-downloader?style=social)
 # [Trovo Profile Picture Downloader](https://tppdownloader.com)
 View and Download any Trovo user's profile picture in high-quality resolution.
 

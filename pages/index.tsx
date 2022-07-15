@@ -61,7 +61,7 @@ const Home: NextPage = () => {
         headers: {
           Accept: "application/json",
           "Client-ID": `${process.env.TROVO_CLIENT_ID}`,
-          Origin: "https://open-api.trovo.live/openplatform",
+          Origin: "https://www.tppdownloader.com",
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: '{"username":"test"}',

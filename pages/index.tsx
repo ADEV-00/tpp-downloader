@@ -62,6 +62,7 @@ const Home: NextPage = () => {
           "Client-ID": "6ec2e3e7dcfc5da113efe21bc3408e07",
           Origin: "https://www.tppdownloader.com/",
           "Content-Type": "application/x-www-form-urlencoded",
+          "access-control-allow-headers": "*",
         },
         body: '{"username":"vanimy"}',
       }

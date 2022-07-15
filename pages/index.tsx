@@ -56,14 +56,15 @@ const Home: NextPage = () => {
     const ress = await fetch(
       "https://open-api.trovo.live/openplatform/channels/id",
       {
+        mode: "cors",
         method: "POST",
         headers: {
           Accept: "application/json",
-          "Client-ID": "6ec2e3e7dcfc5da113efe21bc3408e07",
-          Origin: "https://open-api.trovo.live",
+          "Client-ID": `${process.env.TROVO_CLIENT_ID}`,
+          Origin: "https://open-api.trovo.live/openplatform",
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: '{"username":"vanimy"}',
+        body: '{"username":"test"}',
       }
     ).then((res) => res.json());
 

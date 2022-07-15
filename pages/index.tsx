@@ -60,9 +60,8 @@ const Home: NextPage = () => {
         headers: {
           Accept: "application/json",
           "Client-ID": "6ec2e3e7dcfc5da113efe21bc3408e07",
-          Origin: "https://www.tppdownloader.com/",
+          Origin: "https://open-api.trovo.live",
           "Content-Type": "application/x-www-form-urlencoded",
-          "access-control-allow-headers": "*",
         },
         body: '{"username":"vanimy"}',
       }

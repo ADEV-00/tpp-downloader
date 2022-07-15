@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { saveAs } from "file-saver";
@@ -51,6 +51,28 @@ const Home: NextPage = () => {
     if (profileImage) saveAs(profileImage, "tpp.png"); // Put your image url here.
     toast.success("Image downloaded");
   };
+
+  const fetchProfile = async () => {
+    const ress = await fetch(
+      "https://open-api.trovo.live/openplatform/channels/id",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Client-ID": "6ec2e3e7dcfc5da113efe21bc3408e07",
+          Origin: "https://www.tppdownloader.com/",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: '{"username":"vanimy"}',
+      }
+    ).then((res) => res.json());
+
+    console.log(ress);
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
   return (
     <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col dark:bg-gray-800">

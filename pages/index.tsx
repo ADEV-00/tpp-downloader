@@ -52,29 +52,6 @@ const Home: NextPage = () => {
     toast.success("Image downloaded");
   };
 
-  const fetchProfile = async () => {
-    const ress = await fetch(
-      "https://open-api.trovo.live/openplatform/channels/id",
-      {
-        mode: "cors",
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Client-ID": `${process.env.TROVO_CLIENT_ID}`,
-          Origin: "https://www.tppdownloader.com",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: '{"username":"test"}',
-      }
-    ).then((res) => res.json());
-
-    console.log(ress);
-  };
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
   return (
     <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col dark:bg-gray-800">
       <Head>

@@ -52,6 +52,21 @@ const Home: NextPage = () => {
     toast.success("Image downloaded");
   };
 
+  //id 6ec2e3e7dcfc5da113efe21bc3408e07
+
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+      "Client-ID": "6ec2e3e7dcfc5da113efe21bc3408e07",
+      Origin: "https://www.tppdownloader.com",
+    },
+  };
+  useEffect(() => {
+    fetch("https://open-api.trovo.live/openplatform/categorys/top", options)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
+
   return (
     <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col dark:bg-gray-800">
       <Head>

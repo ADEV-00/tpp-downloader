@@ -54,6 +54,27 @@ const Home: NextPage = () => {
 
   //id 6ec2e3e7dcfc5da113efe21bc3408e07
 
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Client-ID", "6ec2e3e7dcfc5da113efe21bc3408e07");
+  myHeaders.append("Origin", "https://www.tppdownloader.com");
+
+  var requestOptions: any = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  const fetchData = () => {
+    fetch(
+      "https://open-api.trovo.live/openplatform/categorys/top",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
+
   const options = {
     headers: {
       "Content-Type": "application/json",
@@ -62,9 +83,7 @@ const Home: NextPage = () => {
     },
   };
   useEffect(() => {
-    fetch("https://open-api.trovo.live/openplatform/categorys/top", options)
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    fetchData();
   }, []);
 
   return (

@@ -1,6 +1,8 @@
 const chrome = require("chrome-aws-lambda");
 const puppeteer = require("puppeteer");
 
+require("dotenv").config();
+
 const getOptions = async () => {
   let options;
   if (process.env.NODE_ENV === "production") {
@@ -104,7 +106,7 @@ const getOptions = async () => {
   return options;
 };
 
-const getProfilePicture = async (req: any, res: any) => {
+/* const getProfilePicture = async (req: any, res: any) => {
   const url = req.body.url;
 
   // Perform URL validation
@@ -151,6 +153,55 @@ const getProfilePicture = async (req: any, res: any) => {
       status: "success",
       image: imageUrl,
     });
+  } catch (error: any) {
+    console.log(error);
+    res.status(400).json({
+      status: "error",
+      data: error.message || "Something went wrong",
+    });
+    // return callback(error);
+  } finally {
+    if (browser !== null) {
+      await browser.close();
+    }
+  }
+}; */
+
+const getProfilePicture = async (req: any, res: any) => {
+  let browser: any = null;
+  const { username } = req.body;
+  try {
+    var raw = JSON.stringify({ username });
+
+    var requestOptions: any = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Client-ID": process.env.CLIENT_ID,
+        Origin: "https://www.tppdownloader.com",
+      },
+      redirect: "follow",
+      body: raw,
+    };
+
+    await fetch(
+      "https://open-api.trovo.live/openplatform/channels/id",
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result: any) => {
+        console.log(result);
+        if (result.status === 1002) {
+          return res.status(400).json({
+            status: "Error",
+            error: "Cannot find the user",
+          });
+        }
+        return res.json({
+          status: "success",
+          image: result.profile_pic,
+        });
+      });
   } catch (error: any) {
     console.log(error);
     res.status(400).json({

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { saveAs } from "file-saver";
@@ -12,16 +12,10 @@ const Home: NextPage = () => {
   const [loading, setloading] = useState<boolean>(false);
 
   const handleSubmitPorfile = async () => {
-    //check if the link include trovo.com or not
-    if (
-      !profileUrl.startsWith("https://") ||
-      !profileUrl.includes("trovo.live/s/") ||
-      profileUrl === "https://trovo.live/s/"
-    ) {
+    if (!profileUrl) {
       toast.error("Please enter a valid URL");
       return;
     }
-
     setloading(true);
     try {
       const res = await fetch("/api/get-profile-picture", {
@@ -30,9 +24,15 @@ const Home: NextPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          url: profileUrl,
+          //url: profileUrl,
+          username: profileUrl,
         }),
       }).then((res) => res.json());
+
+      if (res.error) {
+        setloading(false);
+        return toast.error(res.error);
+      }
 
       setProfileImage(res.image);
       setloading(false);
@@ -43,9 +43,12 @@ const Home: NextPage = () => {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfileUrl(e.target.value);
-  };
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setProfileUrl(e.target.value);
+    },
+    [profileUrl]
+  );
 
   const downloadImage = () => {
     if (profileImage) saveAs(profileImage, "tpp.png"); // Put your image url here.
@@ -79,7 +82,7 @@ const Home: NextPage = () => {
               htmlFor="search"
               className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-300"
             >
-              Enter trovo profile URL
+              Enter trovo profile username:
             </label>
             <div className="relative">
               <input
@@ -87,7 +90,7 @@ const Home: NextPage = () => {
                 type="search"
                 id="search"
                 className="block p-4 pl-4 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-lg dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white focus:ring-[#21B36C] focus:border focus:border-[#21B36C] outline-none "
-                placeholder="Ex: https://trovo.live/s/username"
+                placeholder="Enter username..."
               />
               {loading ? (
                 <button className="text-white absolute animate-pulse right-2.5 bottom-2.5 bg-[#21B36C] hover:shadow-lg focus:ring-4 focus:outline-none focus:ring-[#28b47063] font-medium rounded-md text-sm px-4 py-2">

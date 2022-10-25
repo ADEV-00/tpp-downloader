@@ -60,20 +60,20 @@ const Home: NextPage = () => {
     <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col dark:bg-gray-800">
       <Head>
         <link rel="icon" href="/favicon.ico" />
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-GH18X9QR9S"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
+      </Head>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-GH18X9QR9S"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){window.dataLayer.push(arguments);}
           gtag('js', new Date());
 
           gtag('config', 'G-GH18X9QR9S');
         `}
-        </Script>
-      </Head>
+      </Script>
 
       <nav className=" w-full flex justify-center items-center fade-in-down-delay-2 mt-3">
         <div className="absolute hidden top-1 right-5 sm:block">

@@ -190,13 +190,17 @@ const getProfilePicture = async (req: any, res: any) => {
     )
       .then((response) => response.json())
       .then((result: any) => {
-        console.log(result);
         if (result.status === 1002) {
           return res.status(400).json({
             status: "Error",
             error: "Cannot find the user",
           });
         }
+        if (result.error)
+          return res.status(400).json({
+            status: "Error",
+            error: "Something went wrong!",
+          });
         return res.json({
           status: "success",
           image: result.profile_pic,

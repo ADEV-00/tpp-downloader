@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import React, { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
+import Script from "next/script";
 import Image from "next/image";
 import { saveAs } from "file-saver";
 import toast, { Toaster } from "react-hot-toast";
@@ -59,6 +60,19 @@ const Home: NextPage = () => {
     <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col dark:bg-gray-800">
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-GH18X9QR9S"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-GH18X9QR9S');
+        `}
+        </Script>
       </Head>
 
       <nav className=" w-full flex justify-center items-center fade-in-down-delay-2 mt-3">

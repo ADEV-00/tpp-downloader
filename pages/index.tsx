@@ -56,6 +56,13 @@ const Home: NextPage = () => {
     toast.success("Image downloaded");
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      //  Get input value
+      handleSubmitPorfile();
+    }
+  };
+
   return (
     <div className="w-full min-h-screen bg-[#F5F5F5] flex flex-col dark:bg-gray-800">
       <Head>
@@ -100,7 +107,9 @@ const Home: NextPage = () => {
             </label>
             <div className="relative">
               <input
+                onSubmit={handleSubmitPorfile}
                 onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
                 type="search"
                 id="search"
                 className="block p-4 pl-4 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-lg dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white focus:ring-[#21B36C] focus:border focus:border-[#21B36C] outline-none "
